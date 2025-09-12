@@ -1,9 +1,9 @@
-import {useState} from "react";
+import { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import "./App.css";
 
-type Priority = "low" | "medium" | "high";
-type Status = "todo" | "in_progress" | "done";
+type Priority = "Low" | "Medium" | "High";
+type Status = "To Do" | "In Progress" | "Done";
 
 type Task = {
   id: number;
@@ -17,6 +17,17 @@ type Task = {
 };
 
 function App() {
+
+  // // Chế độ sáng/tối
+  // const [darkMode, setDarkMode] = useState(false);
+  // useEffect(() => {
+  //   if (darkMode) {
+  //     document.body.classList.add("dark-mode");
+  //   } else {
+  //     document.body.classList.remove("dark-mode");
+  //   }
+  // }, [darkMode]);
+
   // State danh sách tasks
   const [tasks, setTasks] = useState<Task[]>([]);
 
@@ -25,8 +36,8 @@ function App() {
     title: "",
     startDate: "",
     endDate: "",
-    priority: "low",
-    status: "todo",
+    priority: "Low",
+    status: "To Do",
     description: "",
     tags: [],
   });
@@ -70,8 +81,8 @@ function App() {
       title: "",
       startDate: "",
       endDate: "",
-      priority: "low",
-      status: "todo",
+      priority: "Low",
+      status: "To Do",
       description: "",
       tags: [],
     });
@@ -119,31 +130,32 @@ function App() {
     closeTask();
   };
 
-  // Hàm render danh sách task theo trạng thái
-  const renderTasksByStatus = (status: Status) => {
-    return tasks
-      .filter((task) => task.status === status)
-      .map((task) => (
-        <div
-          key={task.id}
-          className="task-item"
-          onClick={() => openTask(task)}
-          style={{
-            cursor: "pointer",
-            border: "1px solid #ccc",
-            margin: "5px",
-            padding: "5px",
-          }}
-        >
-          <h4>{task.title}</h4>
-          <p>
-            {task.startDate} - {task.endDate}
-          </p>
-          <p>Priority: {task.priority}</p>
+  const today = new Date().toISOString().split("T")[0];
+
+  const renderTasks = (filterFn: (task: Task) => boolean) => {
+    return tasks.filter(filterFn).map((task) => (
+      <div key={task.id} className="task-card" onClick={() => openTask(task)}>
+        <h4 className="task-title">{task.title}</h4>
+        <p className="due-date">
+          {task.startDate} - {task.endDate}
+        </p>
+        <p className="task-status">{task.status}</p>
+        <p className="priority">Priority: {task.priority}</p>
+        {task.tags && task.tags.length > 0 && (
           <p>Tags: {task.tags.join(", ")}</p>
-        </div>
-      ));
+        )}
+      </div>
+    ));
   };
+
+  const filterFn: Array<(task: Task) => boolean> = [
+    (task) => task.startDate === today && task.status !== "Done",
+    (task) => task.startDate > today && task.status !== "Done",
+    (task) => task.status === "Done",
+  ];
+
+  // Ẩn side-menu khi thu nhỏ trình duyệt
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div>
@@ -166,8 +178,7 @@ function App() {
             <i className="bx bx-user-circle"></i>
           </div>
           <div className="name-box">
-            <p className="user-name"></p>
-
+            <p className="user-name">Test User</p>
             <div className="dropdown">
               <button className="user">Account</button>
               <button className="logout-btn">Log out</button>
@@ -175,6 +186,10 @@ function App() {
           </div>
         </div>
       </header>
+
+      <button className="sidebar-toggle" onClick={() => setSidebarOpen(true)}>
+        &gt;
+      </button>
 
       <div id="side-menu">
         <div className="name-website">
@@ -227,6 +242,12 @@ function App() {
         </div>
       </div>
 
+      <div
+        id="side-menu-close"
+        className={sidebarOpen ? "open" : ""}
+        onClick={() => setSidebarOpen(false)}
+      ></div>
+
       <div className="tasks">
         <div className="task-header">
           <div className="create-task">
@@ -262,9 +283,9 @@ function App() {
               value={newTask.priority}
               onChange={handleNewTask}
             >
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
             </select>
 
             <select
@@ -273,15 +294,18 @@ function App() {
               value={newTask.status}
               onChange={handleNewTask}
             >
-              <option value="ToDo">To do</option>
-              <option value="InProgress">In progress</option>
+              <option value="To Do">To do</option>
+              <option value="In progress">In progress</option>
               <option value="Done">Done</option>
             </select>
 
             <textarea
               className="task-description"
+              name="description"
               placeholder="Task description"
-            ></textarea>
+              value={newTask.description}
+              onChange={handleNewTask}
+            />
 
             <input
               type="text"
@@ -292,7 +316,9 @@ function App() {
               onChange={handleNewTask}
             />
 
-            <button className="add-task-btn" onClick={addTask}>Add Task</button>
+            <button className="add-task-btn" onClick={addTask}>
+              Add Task
+            </button>
           </div>
 
           <div className="quote">
@@ -307,127 +333,161 @@ function App() {
         <div className="today-tasks">
           <h2>Today's tasks</h2>
           <hr />
-          <div className="recent-task-list">{renderTasksByStatus("todo")}</div>
+          <div className="recent-task-list">{renderTasks(filterFn[0])}</div>
         </div>
 
         <div className="upcoming-tasks">
           <h2>Upcoming tasks</h2>
           <hr />
-          <div className="upcoming-task-list">{renderTasksByStatus("in_progress")}</div>
+          <div className="upcoming-task-list">{renderTasks(filterFn[1])}</div>
         </div>
 
         <div className="completed-tasks">
           <h2>Completed tasks</h2>
           <hr />
-          <div className="completed-task-list">{renderTasksByStatus("done")}</div>
+          <div className="completed-task-list">{renderTasks(filterFn[2])}</div>
         </div>
       </div>
 
       {/* Modal chi tiết của từng task */}
       {selectedTask && (
-        <div id='taskDetail' className="detail" style={{ 
-          position: 'fixed', 
-          top: 0, left: 0, right: 0, bottom: 0,
-          backgroundColor: 'rgba(0,0,0,0.5)', 
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-          <div className='detail-content' style={{backgroundColor: "white", padding: "20px", borderRadius: "8px", width: "400px"}}>
-            <span id="closeModal" style={{cursor: "pointer", float: "right", fontSize: "20px"}} onClick={closeTask}> &times; </span>
-            
+        <div
+          id="taskDetail"
+          className="detail"
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0,0,0,0.5)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            className="detail-content"
+            style={{
+              backgroundColor: "white",
+              padding: "20px",
+              borderRadius: "8px",
+              width: "400px",
+            }}
+          >
+            <span
+              id="closeModal"
+              style={{ cursor: "pointer", float: "right", fontSize: "20px" }}
+              onClick={closeTask}
+            >
+              {" "}
+              &times;{" "}
+            </span>
+
             <h2>DETAIL AND EDIT TASK</h2>
-            <form id='editForm' onSubmit={saveTaskChanges}>
-              <input type='hidden' id='edit-id' value={selectedTask.id} readOnly/>
+            <form id="editForm" onSubmit={saveTaskChanges}>
+              <input
+                type="hidden"
+                id="edit-id"
+                value={selectedTask.id}
+                readOnly
+              />
               <label>Title:</label>
-              <input 
-               type='text' 
-               id='edit-title' 
-               name='title'
-               value={selectedTask.title} 
-               onChange={handleEditChange}
-              />
-
-              <br/><br/>
-
-              <label>Start Date:</label>
-              <input 
-               type='date' 
-               id='edit-start-date' 
-               name='startDate'
-               value={selectedTask.startDate} 
-               onChange={handleEditChange}
-              />
-
-              <br/><br/>
-
-              <label>End Date:</label>
-              <input 
-                type='date' 
-                id='edit-end-date' 
-                name='endDate'
-                value={selectedTask.endDate} 
+              <input
+                type="text"
+                id="edit-title"
+                name="title"
+                value={selectedTask.title}
                 onChange={handleEditChange}
               />
 
-              <br/><br/>
+              <br />
+              <br />
+
+              <label>Start Date:</label>
+              <input
+                type="date"
+                id="edit-start-date"
+                name="startDate"
+                value={selectedTask.startDate}
+                onChange={handleEditChange}
+              />
+
+              <br />
+              <br />
+
+              <label>End Date:</label>
+              <input
+                type="date"
+                id="edit-end-date"
+                name="endDate"
+                value={selectedTask.endDate}
+                onChange={handleEditChange}
+              />
+
+              <br />
+              <br />
 
               <label>Status: </label>
               <select
-                id='edit-status'
-                name='status'
+                id="edit-status"
+                name="status"
                 value={selectedTask.status}
                 onChange={handleEditChange}
               >
-                <option value='To Do'>To Do</option>
-                <option value='In Progress'>In Progress</option>
-                <option value='Done'>Done</option>
+                <option value="todo">To Do</option>
+                <option value="in_progress">In Progress</option>
+                <option value="done">Done</option>
               </select>
 
-              <br/><br/>
+              <br />
+              <br />
 
               <label>Priority: </label>
-              <select 
-                id='edit-priority'
-                name='priority'
+              <select
+                id="edit-priority"
+                name="priority"
                 value={selectedTask.priority}
                 onChange={handleEditChange}
               >
-                <option value='low'>Low</option>
-                <option value='medium'>Medium</option>
-                <option value='high'>High</option>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
               </select>
 
-              <br/><br/>
+              <br />
+              <br />
 
               <label>Description:</label>
-              <textarea 
-                id='edit-desc'
-                name='description'
+              <textarea
+                id="edit-desc"
+                name="description"
                 value={selectedTask.description}
                 onChange={handleEditChange}
               ></textarea>
 
-              <br/><br/>
+              <br />
+              <br />
 
               <label>Tags:</label>
-              <input 
-                type='text' 
-                id='edit-tags' 
-                name='tags'
+              <input
+                type="text"
+                id="edit-tags"
+                name="tags"
                 value={selectedTask.tags.join(", ")}
                 onChange={handleEditChange}
-                placeholder='Tags (comma separated)'
+                placeholder="Tags (comma separated)"
               />
 
-              <br/><br/>
-              <button type='submit'>Save Changes</button>
-          </form>
+              <br />
+              <br />
+              <button type="submit">Save Changes</button>
+            </form>
+          </div>
         </div>
-      </div>
       )}
     </div>
-);
+  );
 }
 
 export default App;

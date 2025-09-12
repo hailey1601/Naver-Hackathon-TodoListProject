@@ -15,9 +15,9 @@ header {
 .search-box {
   display: flex;              /* cho input và button nằm ngang */
   align-items: center; 
-  border-radius: 20px;
+  border-radius: 50px;
   border: 1px solid rgb(207, 207, 207);
-  padding: 10px;
+  padding: 6px;
   width: 500px;
 }
 .search-box input {
@@ -37,7 +37,7 @@ header {
   margin-right: 10px;
 }
 .search-btn i {
-  font-size: 20px;
+  font-size: 18px;
   color: #3a5c0d;
 }
 
@@ -341,7 +341,7 @@ hr {
   gap: 25px;
   background: #fff;
   padding: 15px;
-  border-radius: 20px;
+  border-radius: 50px;
   width: 100%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   cursor: pointer;
