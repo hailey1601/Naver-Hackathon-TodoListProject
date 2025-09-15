@@ -1,10 +1,4 @@
 # To-Do App
-## 🚀 Project Setup & Usage
-**How to install and run your project:**  
-✍️  
-Example (replace with your actual steps)  
-- `npm install`  
-- `npm start`
 
 ## 🔗 Deployed Web URL or APK file
 ✍️ https://naver-hackathon-todolist.netlify.app
