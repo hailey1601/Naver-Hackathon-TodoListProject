@@ -1,9 +1,4 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/YHSq4TPZ)
-# To-Do App – Preliminary Assignment Submission
-⚠️ Please complete **all sections marked with the ✍️ icon** — these are required for your submission.
-
-👀 Please Check ASSIGNMENT.md file in this repository for assignment requirements.
-
+# To-Do App
 ## 🚀 Project Setup & Usage
 **How to install and run your project:**  
 ✍️  
@@ -12,16 +7,11 @@ Example (replace with your actual steps)
 - `npm start`
 
 ## 🔗 Deployed Web URL or APK file
-✍️ [Paste your link here]
+✍️ https://naver-hackathon-todolist.netlify.app
 
 
 ## 🎥 Demo Video
-**Demo video link (≤ 2 minutes):**  
-📌 **Video Upload Guideline:** when uploading your demo video to YouTube, please set the visibility to **Unlisted**.  
-- “Unlisted” videos can only be viewed by users who have the link.  
-- The video will not appear in search results or on your channel.  
-- Share the link in your README so mentors can access it.  
-
+**Demo video link:**  
 ✍️ [Paste your video link here]
 
 
@@ -29,37 +19,46 @@ Example (replace with your actual steps)
 
 ### a. Overview
 
-✍️ [Write your content here]
+This application, OwlHelp, is a "Student Time Management Solution" designed to help Vietnamese university students organize their daily tasks and academic responsibilities. It features a clean, simple interface with a calming green, gray, and white color palette. The solution addresses the core challenge of juggling multiple tasks across different platforms by providing a single, centralized tool.
 
 ### b. Key Features & Function Manual
 
-✍️ [Write your content here, explain about your app's functions]
+- Task Management (CRUD): Users can create new tasks with a title, due date, and time. Existing tasks can be edited, marked as complete, or deleted.
 
+- Dynamic Task Views: The app automatically sorts and displays tasks in three clear categories: To Do, Completed, and Upcoming, helping users manage their priorities effectively.
+
+- Motivational Messages: Users receive random motivational quotes from a pre-written array, providing a positive and encouraging experience.
+
+- Persistent Storage: All tasks are saved locally to the user's browser, ensuring the list remains available across sessions.
+  
 ### c. Unique Features (What’s special about this app?) 
 
-✍️ [Write your content here]
+Our unique approach with OwlHelp focuses on providing a clean, distraction-free interface that helps students maintain focus. The combination of dynamic task categorization with an integrated motivational message feature offers a seamless and engaging way to manage tasks. The design prioritizes a straightforward user experience, making it easy for students to quickly add and manage tasks without a steep learning curve while feeling encouraged along the way.
 
 ### d. Technology Stack and Implementation Methods
 
-✍️ [Write your content here]
+a. Technology Stack
+- Frontend: React, Vite
+
+- Styling: CSS
+
+- Data Persistence: Browser's localStorage API
 
 ### e. Service Architecture & Database structure (when used)
 
-✍️ [Write your content here]
+The project is built as a Single-Page Application (SPA), with all logic and rendering handled on the client side using React components. State is managed via React hooks. The localStorage API serves as a simple key-value store, where tasks are saved as a JSON string for easy access and manipulation.
 
 ## 🧠 Reflection
 
 ### a. If you had more time, what would you expand?
 
-✍️ [Write your content here]
-
+If I had more time, I would expand the application to include user accounts and a backend database (like Firebase or Supabase). This would enable real-time synchronization across multiple devices, allowing students to access their to-do list from their phone and laptop seamlessly. I would also add a sharing feature for group tasks, where a project manager could assign tasks to different members and track progress in real-time.
 
 ### b. If you integrate AI APIs more for your app, what would you do?
 
-✍️ [Write your content here]
-
+To further integrate AI, I would use a language model API to implement a "Smart Prioritization" feature. The AI could analyze a student's past task completion times, procrastination patterns, and current deadlines to provide a dynamic, AI-sorted list of tasks. This would go beyond simple urgency and truly help students tackle what they are most likely to avoid. Additionally, the AI could send personalized "Procrastination Alerts" based on learned behavior, prompting the student to start a task before it's too late.
 
 ## ✅ Checklist
-- [ ] Code runs without errors  
-- [ ] All required features implemented (add/edit/delete/complete tasks)  
-- [ ] All ✍️ sections are filled  
+- [x] Code runs without errors  
+- [x] All required features implemented (add/edit/delete/complete tasks)  
+- [x] All ✍️ sections are filled  
