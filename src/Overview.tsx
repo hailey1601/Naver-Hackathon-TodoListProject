@@ -97,7 +97,7 @@ export default function Overview() {
   // Thêm task mới vào danh sách
   const addTask = () => {
     if (newTask.title.trim() === "") {
-      setErrorMessage("Task name is required!");
+      setErrorMessage("🤖 Hey there! Every great journey starts with a name. Give your task a title and let's make magic happen! ✨");
       return;
     }
     // Sử dụng ID duy nhất
