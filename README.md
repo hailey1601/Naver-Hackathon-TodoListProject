@@ -37,7 +37,6 @@ Our unique approach with OwlHelp focuses on providing a clean, distraction-free 
 
 ### d. Technology Stack and Implementation Methods
 
-a. Technology Stack
 - Frontend: React, Vite
 
 - Styling: CSS
